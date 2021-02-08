@@ -1,14 +1,14 @@
 const colors = require('tailwindcss/colors')
-// const palette = require('./palette')
+const palette = require('./palette')
 
 module.exports = {
   purge: [],
   presets: [],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    // extend: {
-    // colors: palette
-    // },
+    extend: {
+      colors: palette
+    },
     screens: {
       sm: '640px',
       md: '768px',
@@ -167,6 +167,7 @@ module.exports = {
     },
     fontFamily: {
       sans: [
+        'Inter',
         'ui-sans-serif',
         'system-ui',
         '-apple-system',
