@@ -1,4 +1,4 @@
-# chatfood
+# vue-authentication
 
 ## Project setup
 ```
