@@ -18,8 +18,8 @@
             right away.
           </div>
 
-          <AppInput label="Email" type="email" placeholder="Enter email" required v-model="state.user.email" />
-          <AppInput label="Password" type="password" placeholder="Password" required v-model="state.user.password" />
+          <app-input label="Email" type="email" placeholder="Enter email" required v-model="state.user.email"></app-input>
+          <app-input label="Password" type="password" placeholder="Password" required v-model="state.user.password"></app-input>
           <app-button type="submit" @click="clicou()">Login</app-button>
 
           <p class="text-sm flex justify-center mt-6">
