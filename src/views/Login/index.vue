@@ -23,14 +23,15 @@
           <app-button type="submit">Login</app-button>
 
           <p class="text-sm flex justify-center mt-6">
-            Dont't have an account? <a class="text-primary">Signup now</a>
+            <span class="mr-1">Dont't have an account?</span>
+            <router-link to="/" class="text-primary cursor-pointer hover:underline">Signup now</router-link>
           </p>
         </form>
       </div>
     </div>
 
     <div
-      class="bg-clients flex-1 flex items-center justify-center py-10 lg:px-24 px-8 text-white bg-primary-darkest lg:min-h-screen"
+      class="flex-1 flex items-center justify-center py-10 lg:px-24 px-8 text-white bg-primary-darkest lg:min-h-screen"
     >
       <div class="max-w-lg">
         <h1 class="text-3xl font-semibold">What our clients say</h1>
@@ -81,15 +82,3 @@ export default {
   }
 }
 </script>
-
-<style lang="postcss" scoped>
-.bg-clients {
-  background-image: url("https://dashboard.chatfood.io/img/register-bg-dots.svg"),
-    url("https://dashboard.chatfood.io/img/register-bg-dots.svg"),
-    url("https://dashboard.chatfood.io/img/register-bg-icon-red.svg"),
-    url("https://dashboard.chatfood.io/img/register-bg-icon-blue.svg");
-  background-repeat: no-repeat;
-  background-size: 8vmax, 8vmax, 12vmax, 12vmax;
-  background-position: 0 0, 100% 100%, 100% 0, 0 100%;
-}
-</style>
