@@ -48,7 +48,7 @@ router.beforeEach((to, from, next) => {
     })
   } else {
     if (isAuthenticated && to.meta.requiresAuth === false) {
-      next({ path: '/' })
+      next({ path: '/dashboard' })
     } else {
       next()
     }

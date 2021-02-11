@@ -20,7 +20,7 @@
 
           <app-input label="Email" type="email" placeholder="Enter email" required v-model="state.user.email"></app-input>
           <app-input label="Password" type="password" placeholder="Password" required v-model="state.user.password"></app-input>
-          <app-button type="submit" @click="clicou()">Login</app-button>
+          <app-button type="submit">Login</app-button>
 
           <p class="text-sm flex justify-center mt-6">
             Dont't have an account? <a class="text-primary">Signup now</a>
@@ -46,13 +46,16 @@
 
 <script>
 import { reactive } from 'vue'
+import { useStore } from 'vuex'
 import AppButton from '@/components/AppButton.vue'
 import AppInput from '@/components/AppInput.vue'
+import { httpClient } from '@/services/index'
 
 export default {
   components: { AppButton, AppInput },
 
   setup () {
+    const store = useStore()
     const state = reactive({
       user: {
         email: '',
@@ -60,8 +63,15 @@ export default {
       }
     })
 
-    function handleSubmit () {
-      console.log('handleSubmit')
+    async function handleSubmit () {
+      try {
+        const response = await httpClient.post('/UsuariosAutenticar', { email: state.user.email, password: state.user.password })
+        if (response.data.sucesso) {
+          store.commit('setToken', response.data.dados.token)
+        }
+      } catch (error) {
+        //
+      }
     }
 
     return {
