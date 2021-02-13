@@ -5,8 +5,6 @@ const Dashboard = () => import('../views/Dashboard/index.vue')
 const Home = () => import('../views/Home/index.vue')
 const Login = () => import('../views/Login/index.vue')
 
-const isAuthenticated = store.getters.isAuthenticated
-
 const routes = [
   {
     path: '/dashboard',
@@ -41,13 +39,13 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth && !isAuthenticated) {
+  if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
     next({
       path: '/login',
-      query: { redirect: to.fullPath }
+      query: { redirect: to.name }
     })
   } else {
-    if (isAuthenticated && to.meta.requiresAuth === false) {
+    if (store.getters.isAuthenticated && to.meta.requiresAuth === false) {
       next({ path: '/dashboard' })
     } else {
       next()

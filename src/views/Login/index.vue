@@ -18,9 +18,26 @@
             right away.
           </div>
 
-          <app-input label="Email" type="email" placeholder="Enter email" required v-model="state.user.email"></app-input>
-          <app-input label="Password" type="password" placeholder="Password" required v-model="state.user.password"></app-input>
-          <app-button type="submit">Login</app-button>
+          <app-input
+            label="Email"
+            type="email"
+            placeholder="Enter email"
+            required
+            :disabled="state.isLoading"
+            v-model="state.user.email"
+          ></app-input>
+
+          <app-input
+            label="Password"
+            type="password"
+            placeholder="Password"
+            required
+            :disabled="state.isLoading"
+            v-model="state.user.password"
+          >
+          </app-input>
+
+          <app-button type="submit" :disabled="state.isLoading" :loading="state.isLoading">Login</app-button>
 
           <p class="text-sm flex justify-center mt-6">
             <span class="mr-1">Dont't have an account?</span>
@@ -48,35 +65,48 @@
 <script>
 import { reactive } from 'vue'
 import { useStore } from 'vuex'
+import { useRoute, useRouter } from 'vue-router'
 import AppButton from '@/components/AppButton.vue'
 import AppInput from '@/components/AppInput.vue'
-import { httpClient } from '@/services/index'
+import services from '@/services/index'
 
 export default {
   components: { AppButton, AppInput },
 
   setup () {
     const store = useStore()
+    const route = useRoute()
+    const router = useRouter()
     const state = reactive({
       user: {
-        email: '',
-        password: ''
-      }
+        email: 'eve.holt@reqres.in',
+        password: 'cityslicka'
+      },
+      isLoading: false
     })
 
     async function handleSubmit () {
+      state.isLoading = true
       try {
-        const response = await httpClient.post('/UsuariosAutenticar', { email: state.user.email, password: state.user.password })
-        if (response.data.sucesso) {
-          store.commit('setToken', response.data.dados.token)
+        const response = await services.auth.login({ email: state.user.email, password: state.user.password })
+
+        if (response.data) {
+          store.commit('setToken', response.data.token)
+
+          route.query.redirect
+            ? router.push({ name: route.query.redirect })
+            : router.push({ name: 'Dashboard' })
         }
       } catch (error) {
-        //
+        console.log('Ocorreu um erro ao fazer o login ')
+      } finally {
+        state.isLoading = false
       }
     }
 
     return {
       state,
+      route,
       handleSubmit
     }
   }
