@@ -7,10 +7,9 @@
         <img
           src="../../assets/images/logo.svg"
           class="w-40 mb-10"
-          alt="ChatFood brand logo - Link to home page, which has an overview of the ChatFood online ordering system"
         />
 
-        <form @submit.prevent="handleSubmit">
+        <form @submit="onSubmit">
           <h1 class="text-3xl font-semibold">Welcome to ChatFood</h1>
           <div class="text-sm mt-8">It's good to see you again!</div>
           <div class="text-sm mt-2 mb-10">
@@ -24,7 +23,8 @@
             placeholder="Enter email"
             required
             :disabled="state.isLoading"
-            v-model="state.user.email"
+            :error="state.email.errorMessage"
+            v-model="state.email.value"
           ></app-input>
 
           <app-input
@@ -33,9 +33,9 @@
             placeholder="Password"
             required
             :disabled="state.isLoading"
-            v-model="state.user.password"
-          >
-          </app-input>
+            :error="state.password.errorMessage"
+            v-model="state.password.value"
+          ></app-input>
 
           <app-button type="submit" :disabled="state.isLoading" :loading="state.isLoading">Login</app-button>
 
@@ -66,9 +66,11 @@
 import { reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
+import { useForm, useField } from 'vee-validate'
+import { validateEmptyAndLength3, validateEmptyAndEmail } from '@/utils/validators'
+import services from '@/services/index'
 import AppButton from '@/components/AppButton.vue'
 import AppInput from '@/components/AppInput.vue'
-import services from '@/services/index'
 
 export default {
   components: { AppButton, AppInput },
@@ -77,18 +79,38 @@ export default {
     const store = useStore()
     const route = useRoute()
     const router = useRouter()
+    const { setValues, handleSubmit } = useForm()
+
+    const {
+      value: emailValue,
+      errorMessage: emailErrorMessage
+    } = useField('email', validateEmptyAndEmail)
+    const {
+      value: passwordValue,
+      errorMessage: passwordErrorMessage
+    } = useField('password', validateEmptyAndLength3)
+
     const state = reactive({
-      user: {
-        email: 'eve.holt@reqres.in',
-        password: 'cityslicka'
+      email: {
+        value: emailValue,
+        errorMessage: emailErrorMessage
+      },
+      password: {
+        value: passwordValue,
+        errorMessage: passwordErrorMessage
       },
       isLoading: false
     })
 
-    async function handleSubmit () {
+    setValues({
+      email: 'eve.holt@reqres.in',
+      password: 'cityslicka'
+    })
+
+    const onSubmit = handleSubmit(async (values) => {
       state.isLoading = true
       try {
-        const response = await services.auth.login({ email: state.user.email, password: state.user.password })
+        const response = await services.auth.login({ email: state.email.value, password: state.password.value })
 
         if (response.data) {
           store.commit('setToken', response.data.token)
@@ -102,12 +124,12 @@ export default {
       } finally {
         state.isLoading = false
       }
-    }
+    })
 
     return {
       state,
       route,
-      handleSubmit
+      onSubmit
     }
   }
 }
