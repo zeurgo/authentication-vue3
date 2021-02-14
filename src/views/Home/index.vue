@@ -1,3 +1,16 @@
 <template>
-  <h1 class="text-primary-dark text-3xl font-semibold">Home</h1>
+  <TheHeader />
+  <AppHero />
 </template>
+
+<script>
+import TheHeader from '@/components/layout/TheHeader'
+import AppHero from '@/components/ui/AppHero'
+
+export default {
+  components: {
+    TheHeader,
+    AppHero
+  }
+}
+</script>

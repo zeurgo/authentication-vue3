@@ -6,11 +6,12 @@
       <div class="max-w-lg">
         <img
           src="../../assets/images/logo.svg"
-          class="w-40 mb-10"
+          class="w-56 -ml-7 cursor-pointer"
+          @click="goPage()"
         />
 
         <form @submit="onSubmit">
-          <h1 class="text-3xl font-semibold">Welcome to ChatFood</h1>
+          <h1 class="text-3xl font-semibold">Welcome to LogoIpsum</h1>
           <div class="text-sm mt-8">It's good to see you again!</div>
           <div class="text-sm mt-2 mb-10">
             Type your login information and we will take you to your dashboard
@@ -37,7 +38,7 @@
             v-model="state.password.value"
           ></app-input>
 
-          <app-button type="submit" :disabled="state.isLoading" :loading="state.isLoading">Login</app-button>
+          <app-button type="submit" full :disabled="state.isLoading" :loading="state.isLoading">Login</app-button>
 
           <p class="text-sm flex justify-center mt-6">
             <span class="mr-1">Dont't have an account?</span>
@@ -51,10 +52,9 @@
       class="flex-1 flex items-center justify-center py-10 lg:px-24 px-8 text-white bg-primary-darkest lg:min-h-screen"
     >
       <div class="max-w-lg">
-        <h1 class="text-3xl font-semibold">What our clients say</h1>
+        <h1 class="text-3xl font-semibold">What is Lorem Ipsum?</h1>
         <div class="text-xl font-medium mt-8">
-          "ChatFood is a solution tailored to food and beverage businesses. The
-          customer service is second to none"
+          "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
         </div>
         <div class="text-sm text-primary-light mt-6">Ziad, Kaa’k Al Manara</div>
       </div>
@@ -69,8 +69,8 @@ import { useRoute, useRouter } from 'vue-router'
 import { useForm, useField } from 'vee-validate'
 import { validateEmptyAndLength3, validateEmptyAndEmail } from '@/utils/validators'
 import services from '@/services/index'
-import AppButton from '@/components/AppButton.vue'
-import AppInput from '@/components/AppInput.vue'
+import AppButton from '@/components/ui/AppButton.vue'
+import AppInput from '@/components/ui/AppInput.vue'
 
 export default {
   components: { AppButton, AppInput },
@@ -126,10 +126,14 @@ export default {
       }
     })
 
+    function goPage () {
+      router.push({ name: 'Home' })
+    }
+
     return {
       state,
-      route,
-      onSubmit
+      onSubmit,
+      goPage
     }
   }
 }
