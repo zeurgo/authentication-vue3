@@ -10,6 +10,11 @@ const mutations = {
   setToken (state, token) {
     state.token = token
     localStorage.setItem('token', token)
+  },
+
+  logout (state) {
+    state.token = ''
+    localStorage.setItem('token', '')
   }
 }
 

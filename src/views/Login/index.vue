@@ -69,8 +69,8 @@ import { useRoute, useRouter } from 'vue-router'
 import { useForm, useField } from 'vee-validate'
 import { validateEmptyAndLength3, validateEmptyAndEmail } from '@/utils/validators'
 import services from '@/services/index'
-import AppButton from '@/components/ui/AppButton.vue'
-import AppInput from '@/components/ui/AppInput.vue'
+import AppButton from '@/components/ui/AppButton'
+import AppInput from '@/components/ui/AppInput'
 
 export default {
   components: { AppButton, AppInput },
